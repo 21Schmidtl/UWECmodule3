@@ -1,0 +1,37 @@
+.exercise-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the gap between cards */
+    justify-content: center;
+}
+
+.exercise-card {
+    min-width: 250px; /* Set the minimum width you want for the cards */
+    max-width: 300px; /* Optionally, set a max-width for cards */
+    width: 100%; /* Ensure cards take full available width within their container */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.exercise-card:hover {
+    transform: scale(1.05); /* Add hover effect */
+}
+
+.exercise-image {
+    width: 100%;
+    height: auto;
+}
+
+.exercise-info {
+    padding: 10px;
+}
+
+.exercise-type {
+    margin-right: 5px;
+    padding: 3px 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}

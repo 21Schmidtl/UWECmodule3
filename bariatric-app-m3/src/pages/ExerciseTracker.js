@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import './ExerciseTracker.css'; // You'll need to create this CSS file
+import './ExerciseTracker.css';
 import CalorieProgressTracker from '../components/CalorieProgressTracker';
 import LogExerciseModal from '../components/LogExerciseModal'
+import GuidedRoutines from "../components/GuidedRoutines";
+import ReportsTab from "../components/ReportsTab";
 
 const ExerciseTracker = () => {
     // State management for the component
@@ -11,9 +13,19 @@ const ExerciseTracker = () => {
     const [calorieGoal, setCalorieGoal] = useState(300); // Default goal
 
 
+    // const mockExerciseLog = [
+    //     { date: "2024-03-15", calories: 300, duration: 45 },
+    //     { date: "2024-03-16", calories: 250, duration: 30 },
+    //     { date: "2024-03-17", calories: 400, duration: 60 }
+    // ];
+
 
     // Handler for exercise log submission
     const handleExerciseSubmit = (exercise, duration) => {
+        if (!exercise || !exercise.caloriesPerMinute) {
+        console.error("Invalid exercise data:", exercise);
+        return;
+    }
         const calories = exercise.caloriesPerMinute * duration;
         const newLog = {
             id: Date.now(),
@@ -22,6 +34,8 @@ const ExerciseTracker = () => {
             calories,
             date: new Date()
         };
+
+        console.log('handleExerciseSubmit: newLog', newLog);
 
         setExerciseLog([...exerciseLog, newLog]);
         setCaloriesBurned(caloriesBurned + calories);
@@ -53,23 +67,7 @@ const ExerciseTracker = () => {
     const GuidedRoutinesTab = () => (
         <div className="tab-content">
             <h3>Guided Routines</h3>
-            <div className="routine-filters">
-                <select>
-                    <option>All Phases</option>
-                    <option>Early Post-Op (1-4 weeks)</option>
-                    <option>Recovery (1-3 months)</option>
-                    <option>Active (3+ months)</option>
-                </select>
-                <select>
-                    <option>All Difficulty Levels</option>
-                    <option>Beginner</option>
-                    <option>Intermediate</option>
-                    <option>Advanced</option>
-                </select>
-            </div>
-            <div className="routine-list">
-                <p>List of recommended exercises based on post-op phase will appear here</p>
-            </div>
+            <GuidedRoutines></GuidedRoutines>
         </div>
     );
 
@@ -95,7 +93,7 @@ const ExerciseTracker = () => {
         </div>
     );
 
-    const ReportsTab = () => (
+   /* const ReportsTab = () => (
             <div className="tab-content">
                 <h3>Activity Reports</h3>
                 <div className="report-filters">
@@ -121,7 +119,7 @@ const ExerciseTracker = () => {
                 </div>
             </div>
         )
-    ;
+    ;*/
 
     return (
         <div className="exercise-tracker-container">
@@ -160,7 +158,7 @@ const ExerciseTracker = () => {
                 {activeTab === 'logExercise' && <LogExerciseTab/>}
                 {activeTab === 'guidedRoutines' && <GuidedRoutinesTab/>}
                 {activeTab === 'goals' && <GoalsTab/>}
-                {activeTab === 'reports' && <ReportsTab/>}
+                {activeTab === 'reports' && <ReportsTab excersiseLog={exerciseLog}/>}
             </div>
         </div>
     );

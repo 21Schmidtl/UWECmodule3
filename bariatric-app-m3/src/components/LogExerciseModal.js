@@ -33,12 +33,13 @@ const LogExerciseModal = ({ show, handleClose, handleExerciseSubmit }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group>
+                    <Form.Group className={"mb-3"}>
                         <Form.Label>Exercise</Form.Label>
                         <Form.Control
                             as="select"
                             value={selectedExercise}
                             onChange={(e) => setSelectedExercise(e.target.value)}
+                            onInput={(e) => setSearchQuery(e.target.value)}
                         >
                             <option value="">Select Exercise</option>
                             {filteredExercises.map((exercise) => (

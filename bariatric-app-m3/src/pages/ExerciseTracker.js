@@ -13,11 +13,24 @@ const ExerciseTracker = () => {
     const [calorieGoal, setCalorieGoal] = useState(300); // Default goal
 
 
-    // const mockExerciseLog = [
-    //     { date: "2024-03-15", calories: 300, duration: 45 },
-    //     { date: "2024-03-16", calories: 250, duration: 30 },
-    //     { date: "2024-03-17", calories: 400, duration: 60 }
-    // ];
+
+    const mockExerciseLog = [
+        { date: new Date("2025-03-10"), calories: 280, duration: 40 },
+        { date: new Date("2025-03-11"), calories: 320, duration: 50 },
+        { date: new Date("2025-03-12"), calories: 290, duration: 35 },
+        { date: new Date("2025-03-13"), calories: 310, duration: 45 },
+        { date: new Date("2025-03-14"), calories: 270, duration: 38 },
+        { date: new Date("2025-03-15"), calories: 300, duration: 45 },
+        { date: new Date("2025-03-16"), calories: 250, duration: 30 },
+        { date: new Date("2025-03-17"), calories: 400, duration: 60 },
+        { date: new Date("2025-03-18"), calories: 380, duration: 55 },
+        { date: new Date("2025-03-19"), calories: 410, duration: 65 },
+        { date: new Date("2025-03-20"), calories: 390, duration: 58 },
+        { date: new Date("2025-03-21"), calories: 360, duration: 52 },
+        { date: new Date("2025-03-22"), calories: 330, duration: 48 },
+        { date: new Date("2025-03-23"), calories: 350, duration: 50 }
+    ];
+
 
 
     // Handler for exercise log submission
@@ -158,7 +171,7 @@ const ExerciseTracker = () => {
                 {activeTab === 'logExercise' && <LogExerciseTab/>}
                 {activeTab === 'guidedRoutines' && <GuidedRoutinesTab/>}
                 {activeTab === 'goals' && <GoalsTab/>}
-                {activeTab === 'reports' && <ReportsTab excersiseLog={exerciseLog}/>}
+                {activeTab === 'reports' && <ReportsTab exerciseLog={mockExerciseLog}/>}
             </div>
         </div>
     );

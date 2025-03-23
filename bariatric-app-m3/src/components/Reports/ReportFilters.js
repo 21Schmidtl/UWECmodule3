@@ -1,7 +1,8 @@
 const ReportFilters = ({ timeFilter, setTimeFilter }) => {
     return (
         <div className="report-filters">
-            {["daily", "weekly", "monthly"].map((filter) => (
+            <h4>Report Filters</h4>
+            {["weekly", "monthly"].map((filter) => (
                 <button
                     key={filter}
                     className={timeFilter === filter ? "active" : ""}

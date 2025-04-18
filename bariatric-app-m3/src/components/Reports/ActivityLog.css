@@ -1,0 +1,72 @@
+.activity-log {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.activity-log h4 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.metric-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.metric-btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: gray;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.metric-btn:hover {
+    background-color: #0056b3;
+}
+
+.metric-btn.active {
+    background-color: blue;
+}
+
+.chart-container {
+    height: 400px;
+    margin-top: 20px;
+}
+
+.log-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.log-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.log-item:hover {
+    background-color: #f1f1f1;
+}
+
+.exercise-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.log-detail {
+    color: #666;
+}

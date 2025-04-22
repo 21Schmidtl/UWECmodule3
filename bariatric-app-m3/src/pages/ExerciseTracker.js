@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './ExerciseTracker.css';
 import CalorieProgressTracker from '../components/CalorieProgressTracker';
 import LogExerciseModal from '../components/LogExerciseModal'
@@ -11,52 +11,55 @@ const ExerciseTracker = () => {
     const [exerciseLog, setExerciseLog] = useState([]);
     const [caloriesBurned, setCaloriesBurned] = useState(0);
     const [calorieGoal, setCalorieGoal] = useState(300); // Default goal
+    const [exerciseList, setExerciseList] = useState([]); // State for exercises
 
 
 
-    const mockExerciseLog = [
-        { date: new Date("2025-03-10"), calories: 280, duration: 40 },
-        { date: new Date("2025-03-11"), calories: 320, duration: 50 },
-        { date: new Date("2025-03-12"), calories: 290, duration: 35 },
-        { date: new Date("2025-03-13"), calories: 310, duration: 45 },
-        { date: new Date("2025-03-14"), calories: 270, duration: 38 },
-        { date: new Date("2025-03-15"), calories: 300, duration: 45 },
-        { date: new Date("2025-03-16"), calories: 250, duration: 30 },
-        { date: new Date("2025-03-17"), calories: 400, duration: 60 },
-        { date: new Date("2025-03-18"), calories: 380, duration: 55 },
-        { date: new Date("2025-03-19"), calories: 410, duration: 65 },
-        { date: new Date("2025-03-20"), calories: 390, duration: 58 },
-        { date: new Date("2025-03-21"), calories: 360, duration: 52 },
-        { date: new Date("2025-03-22"), calories: 330, duration: 48 },
-        { date: new Date("2025-03-23"), calories: 350, duration: 50 }
-    ];
+
+    useEffect(() => {
+        fetch("http://127.0.0.1:5000/api/exercises")  // Replace with actual path or API endpoint
+            .then(response => response.json())
+            .then(data => {
+                setExerciseList(data)
+            })
+            .catch(error => console.error("Error fetching exercises:", error));
+    }, []);
 
 
 
     // Handler for exercise log submission
-    const handleExerciseSubmit = (exercise, duration) => {
-        if (!exercise || !exercise.caloriesPerMinute) {
+    const handleExerciseSubmit = async (exercise, duration) => {
+        // if (!exercise || !exercise.caloriesPerMinute) {
+        if(!exercise){
         console.error("Invalid exercise data:", exercise);
         return;
     }
-        const calories = exercise.caloriesPerMinute * duration;
+        // const calories = exercise.caloriesPerMinute * duration;
+        const calories = 0;
         const newLog = {
-            id: Date.now(),
-            name: exercise.name,
+            exercise: exercise.name,
             duration,
             calories,
-            date: new Date()
         };
+
+        try{
+            const user_id = 'user1'
+            // const response = await fetch(`http://127.0.0.1:5000//add-exercise-log?user_id=${user_id}&exercise=${exercise.Title}&duration=${duration}`);
+            const response = await fetch(`http://127.0.0.1:5000//add-exercise-log?{newLog}`)
+        }catch{
+
+        }
+
 
         console.log('handleExerciseSubmit: newLog', newLog);
 
         setExerciseLog([...exerciseLog, newLog]);
-        setCaloriesBurned(caloriesBurned + calories);
+        // setCaloriesBurned(caloriesBurned + calories);
     };
 
     // Components for different tabs
 
-    const LogExerciseTab = () => {
+    const LogExerciseTab = ({exerciseList}) => {
         const [showModal, setShowModal] = useState(false);
 
         return (
@@ -71,6 +74,7 @@ const ExerciseTracker = () => {
                 <LogExerciseModal
                     show={showModal} handleClose={() => setShowModal(false)}
                     handleExerciseSubmit={handleExerciseSubmit}
+                    exerciseList={exerciseList}
                 />
             </div>
         );
@@ -106,33 +110,6 @@ const ExerciseTracker = () => {
         </div>
     );
 
-   /* const ReportsTab = () => (
-            <div className="tab-content">
-                <h3>Activity Reports</h3>
-                <div className="report-filters">
-                    <button>Daily</button>
-                    <button>Weekly</button>
-                    <button>Monthly</button>
-                </div>
-                <div className="charts-container">
-                    <p>Charts showing exercise progress, calorie trends, etc.</p>
-                </div>
-                <div className="activity-log">
-                    <h4>Recent Activity</h4>
-                    <ul className="log-list">
-                        {exerciseLog.map(log => (
-                            <li key={log.id} className="log-item">
-                                <span>{log.name}</span>
-                                <span>{log.duration} min</span>
-                                <span>{log.calories} cal</span>
-                                <span>{log.date.toLocaleDateString()}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-        )
-    ;*/
 
     return (
         <div className="exercise-tracker-container">
@@ -152,12 +129,12 @@ const ExerciseTracker = () => {
                 >
                     Guided Routines
                 </button>
-                <button
-                    className={activeTab === 'goals' ? 'active' : ''}
-                    onClick={() => setActiveTab('goals')}
-                >
-                    Goals
-                </button>
+                {/*<button*/}
+                {/*    className={activeTab === 'goals' ? 'active' : ''}*/}
+                {/*    onClick={() => setActiveTab('goals')}*/}
+                {/*>*/}
+                {/*    Goals*/}
+                {/*</button>*/}
                 <button
                     className={activeTab === 'reports' ? 'active' : ''}
                     onClick={() => setActiveTab('reports')}
@@ -168,10 +145,10 @@ const ExerciseTracker = () => {
 
             {/* Tab Content */}
             <div className="tab-container">
-                {activeTab === 'logExercise' && <LogExerciseTab/>}
+                {activeTab === 'logExercise' && <LogExerciseTab exerciseList={exerciseList}/>}
                 {activeTab === 'guidedRoutines' && <GuidedRoutinesTab/>}
                 {activeTab === 'goals' && <GoalsTab/>}
-                {activeTab === 'reports' && <ReportsTab exerciseLog={mockExerciseLog}/>}
+                {activeTab === 'reports' && <ReportsTab/>}
             </div>
         </div>
     );

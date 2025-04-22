@@ -6,33 +6,29 @@ const ReportCharts = ({ exerciseLog, timeFilter }) => {
     // Aggregate data based on the selected filter (daily, weekly, monthly)
     console.log("exerciseLog in ReportCharts:", exerciseLog); // Debugging log
 
-   const processData = () => {
-    if (!exerciseLog || !Array.isArray(exerciseLog)) {
-        return [];
-    }
+    const processData = () => {
+        if (!exerciseLog || !Array.isArray(exerciseLog)) {
+            return [];
+        }
 
-    const now = new Date();
-    let filteredData = exerciseLog;
+        if (!timeFilter?.startDate || !timeFilter?.endDate) {
+            return exerciseLog; // fallback
+        }
 
-    if (timeFilter === "weekly") {
-        const oneWeekAgo = new Date();
-        oneWeekAgo.setDate(now.getDate() - 7);
-        filteredData = exerciseLog.filter(log => new Date(log.date) >= oneWeekAgo);
-    } else if (timeFilter === "monthly") {
-        const oneMonthAgo = new Date();
-        oneMonthAgo.setMonth(now.getMonth() - 1);
-        filteredData = exerciseLog.filter(log => new Date(log.date) >= oneMonthAgo);
-    } else if (timeFilter === "daily") {
-        const today = now.toLocaleDateString();
-        filteredData = exerciseLog.filter(log => new Date(log.date).toLocaleDateString() === today);
-    }
+        const start = new Date(timeFilter.startDate).setHours(0, 0, 0, 0);
+        const end = new Date(timeFilter.endDate).setHours(0, 0, 0, 0);
 
-    return filteredData.map(log => ({
-        date: new Date(log.date).toLocaleDateString(),
-        calories: log.calories,
-        duration: log.duration
-    }));
-};
+        const filteredData = exerciseLog.filter(log => {
+            const logDate = new Date(log.date).setHours(0, 0, 0, 0);
+            return logDate >= start && logDate <= end;
+        });
+
+        return filteredData.map(log => ({
+            date: new Date(log.date).toLocaleDateString(),
+            calories: log.calories,
+            duration: log.duration
+        }));
+    };
 
     const data = processData();
     console.log("data: ", data);
